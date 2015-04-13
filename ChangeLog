@@ -1,0 +1,64 @@
+2014-11-26 Christophe Royon <christophe.royon@cern.ch>
+* new code for heavy ion flux (nflux=11) 
+* new cards to transmit BMIN
+* new code and fluxes for proton ion, ion proton via Pom/Photon exchange 
+* bug fix for photon pom
+
+2014-09-11 Matthias Saimpert <matthias.saimpert@cern.ch>
+  * Fix for gg->gg, high energy limit implemented (sqrt(s)>>m)
+  * Final release for gg->gg :)
+
+2014-08-18 Matthias Saimpert <matthias.saimpert@cern.ch>
+  * Anomalous aaaa with compHEP routine found to be wrong (around a factor 2.1
+  too small)
+  * Code from Gero and Sylvain replaced the compHEP routine, everything is now
+  in agreement
+  * Possibility to switch back to compHEP routine by commenting/uncommenting
+  fpmc.f l. 3435
+  * The new EFT routine takes interferences with SM aa production via W loop
+  into account
+
+2014-03-20 Matthias Saimpert <matthias.saimpert@cern.ch>
+  * General update/upgrade of the QED Diphoton exclusive process
+  * IPROC=16060, SM QED Exc diphoton production (W + massive fermions loops included)
+  * (old routine is IPROC=19800 kept for comparison purpose but is most likely
+  to be WRONG)
+  * IPROC=16061, SM QED Exc diphoton production at high mass (massive fermion
+  loops EXCLUDED)
+  * IPROC=16062, SM QED  Exc diphoton production at low mass (W loop EXCLUDED)
+  * IPROC=16063, General exotic vector contributions with SM interf (SM fermion
+   loops EXCLUDED
+  * IPROC=16064, General exotic fermion contributions with SM interf (SM
+  fermion EXCLUDED)
+  * Corresponding datacards added
+
+2014-01-21 Christophe Royon <christophe.royon@cea.fr>
+  * with Goergiy Stelmakh,
+  * add Reggeon (nflux=10), Pomeron-Reggeon (nflux=19), Reggeon Pomeron (nflux=21)
+  * Photon-Pomeron (nflux=20), Pomeron-Photon (nflux=22)
+
+2013-12-12 Matthias Saimpert <matthias.saimpert@cern.ch>
+  * Adding aa->aa anomalous couplings (IPROC=16016) based on arXiv:1311.6815 [hep-ph]
+  * Adding ~/External/comphep_interface/sqme_aaaa folder
+  * Modifications of ~/Examples/ffcard., module., module_reco., fpmc_main. and  ~/Fpmc/fpmc.
+
+2013-03-26 Oldrich Kepka <oldrich.kepka@cern.ch>
+  * Adding setup_lxplus.sh, to be used on lxplus to configure CERNLIB
+
+2012-06-05 Rafal Staszewski
+  * New Examples/fpmc_main.f created to supercede module.f and module_reco.f.
+  module and module_reco are disabled in the Makefile. The new exacutable is
+  called fpmc.
+  * The information from jet alg. was not stored into ntuple. A change in
+  External/ntuple.f was needed to fix it.
+  * New OUTPUT option added to steering, determining the generator output.
+  Possible values:
+    0 : Only the text output with the cross section at the end.
+    1 : Ntuple with few histograms and a list of particles for each event.
+    2 : Jet CONE algorithm is performed and its output is also stored in the
+    ntuple.
+
+2011-05-09  Oldrich Kepka  <oldrich.kepka@cern.ch>
+  * Tagging version fpmc_v01-05 - cleanup of nutples, version for testing 
+
+

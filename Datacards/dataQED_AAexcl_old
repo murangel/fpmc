@@ -1,0 +1,14 @@
+NTNAME      'sm_qed_excldiphoton_old.hbook'
+MAXEV       1000
+TYPEPR      'EXC'
+TYPINT      'QED'
+ECMS        14000.
+IPROC       19800
+NFLUX       15
+NRN1        17673
+NRN2        63565
+PTMIN       20.
+YWWMIN      0.
+YWWMAX      1.
+ISOFTM      0
+

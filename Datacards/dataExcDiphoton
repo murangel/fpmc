@@ -1,0 +1,14 @@
+NTNAME     'jjchide.hbook'
+MAXEV       500
+TYPEPR      'EXC'
+TYPINT      'QCD'
+ECMS        1960.
+IPROC       16059
+NFLUX       18
+YJMAX       1.0
+YJMIN      -1.0
+PTMIN       5.
+YWWMIN      0.00001
+YWWMAX      1.0
+CHIDeIGLU 4
+HADR 'Y'

@@ -1,0 +1,13 @@
+NTNAME      'out.hbook'
+MAXEV       1000
+TYPEPR      'EXC'
+TYPINT      'QCD'
+ECMS        14000.
+IPROC       19999
+NFLUX       16
+YJMAX       5.
+YJMIN      -5.
+PTMIN       0.0
+YWWMIN      0.0
+YWWMAX      0.5
+HMASS       120.0

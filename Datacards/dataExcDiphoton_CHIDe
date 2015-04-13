@@ -1,0 +1,13 @@
+CHIDePATH 'External/CHIDe/Data/'
+NTNAME     'out.hbook'
+MAXEV       1000
+TYPEPR      'EXC'
+TYPINT      'QCD'
+ECMS        1960.
+IPROC       16059
+NFLUX       18
+YJMAX       1.0
+YJMIN      -1.0
+PTMIN       5.
+YWWMIN      0.0001
+YWWMAX      0.5

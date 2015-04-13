@@ -1,0 +1,16 @@
+NTNAME      'tmpntuple.ntp'
+MAXEV       200
+TYPEPR      'INC'
+TYPINT      'QCD'
+ECMS        14000.
+IPROC       11704
+NFLUX       10
+NRN1        33781
+NRN2        11776
+YJMAX       8.
+YJMIN       -8.
+PTMIN       0.
+IFIT        100
+ISOFTM	    0
+YWWMIN      0.
+YWWMAX      0.2
