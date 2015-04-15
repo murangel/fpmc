@@ -259,8 +259,7 @@ c particles on the generator level
       N=NHEP
       IPART=0
       do 1515 I=1,N
-          IF(I.GT.5.AND.(ISTHEP(I).EQ.1.OR.
-     c         IDHEP(I).EQ.5.OR.IDHEP(I).EQ.-5)) THEN
+          IF((ISTHEP(I).EQ.1.OR.IDHEP(I).EQ.5.OR.IDHEP(I).EQ.-5)) THEN
              IPART=IPART+1
              px(IPART)=sngl(PHEP(1,I))
              py(IPART)=sngl(PHEP(2,I))
