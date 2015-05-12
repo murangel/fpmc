@@ -1,8 +1,9 @@
 NTNAME      'tmpntuple.ntp'
+LHEFILE     'FPMC_gamgamZZ_anom_13TeV.lhe'
 MAXEV       1000
 TYPEPR      'EXC'
 TYPINT      'QED'
-ECMS        14000.
+ECMS        13000.
 IPROC       16015
 NFLUX       15
 NRN1        17673

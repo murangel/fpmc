@@ -46,11 +46,14 @@
 # IMPORTANT USER SETUP
 #########################################################################
 
-CERNLIB=`cernlib mathlib pawlib packlib` -L$(PWD) -lgfortran -lLHAPDF
+CERNLIB=`cernlib mathlib pawlib packlib` -L$(PWD) -lgfortran
 #CERNLIB=`cernlib mathlib pawlib packlib pdflib804` -L$(PWD) -lgfortran -L$(LHAPDFLIB) -lLHAPDF
 #CERNLIB=`cernlib` -L$(PWD) -lgfortran
 GSLLIB=`gsl-config --cflags --libs`
 
+LHAPDF_BASE=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/5.9.1-cms3
+LHAPDFLIB=-L$(LHAPDF_BASE)/lib -lLHAPDF
+LHAPDF_INCLUDE=-I$(LHAPDF_BASE)/include
 
 #########################################################################
 
@@ -67,7 +70,7 @@ allApp: Fpmc Herwig Externals examples allModules
 clean:clean_sqme clean_excl_aaaa
 	@find ./ -name "*~" -exec rm -v {} \;
 	@find ./ -name ".*.swp" -exec rm -v {} \;
-	rm -f Objects/* module* fort.* *.hbook last.kumac *.ntp example_* *.mod
+	rm -f Objects/* module* fort.* *.hbook last.kumac *.ntp example_* *.mod lib/*.so lib/*.a
 	
 # FLAGS
 # -------
@@ -81,7 +84,7 @@ clean:clean_sqme clean_excl_aaaa
 #F_COMP = g77 $(F_FLAGS) $(SPEC_FL)
 
 # gforan - setup
-F_FLAGS = -g -O1  -fno-automatic -Iinc
+F_FLAGS = -g -O1 -fno-automatic -Iinc
 F_COMP = gfortran $(F_FLAGS) $(SPEC_FL)
 
 # other 
@@ -284,17 +287,20 @@ $(OBJDIR)/ntuple.o:External/ntuple.f
 $(OBJDIR)/ffcard.o:Examples/ffcard.f Examples/ffcard.inc
 	$(F_COMP) -c $< -o $@
 
+# LHE functions
+$(OBJDIR)/fpmc_lhe.o:Examples/fpmc_lhe.f
+	$(F_COMP) -c $< -o $@
 
 # ----------------
 # Objects variables
 # ----------------
-OBJSTAND=$(OBJDIR)/herwig6500.o  $(OBJDIR)/fpmc.o $(OBJDIR)/ffcard.o
-OBJEXT=$(ext_obj_dest) $(ext_pdf_dest) $(ext_comphep_dest) $(ext_excl_aaaa_dest) $(ext_kmr_obj_dest)  $(ext_softc_obj_dest) \
-       $(ext_CHIDeCommon_obj_dest) $(ext_CHIDeHiggs_obj_dest) $(ext_KMR2_obj_dest) \
+OBJSTAND = $(OBJDIR)/herwig6500.o  $(OBJDIR)/fpmc.o $(OBJDIR)/ffcard.o $(OBJDIR)/fpmc_lhe.o
+OBJEXT   = $(ext_obj_dest) $(ext_pdf_dest) $(ext_comphep_dest) $(ext_excl_aaaa_dest) $(ext_kmr_obj_dest)  $(ext_softc_obj_dest) \
+	$(ext_CHIDeCommon_obj_dest) $(ext_CHIDeHiggs_obj_dest) $(ext_KMR2_obj_dest) \
 	$(ext_CHIDeGG_obj_dest) $(ext_CHIDeDiphoton_obj_dest) 
-OBJUSR = $(OBJDIR)/ntuple.o
-LIBS=$(CERNLIB) $(GSLLIB) $(LIB_OMEGA)
-OBJRECO = $(reco_obj_dest)
+OBJUSR   = $(OBJDIR)/ntuple.o
+LIBS     = $(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA)
+OBJRECO  = $(reco_obj_dest)
 
 
 # ----------------
@@ -317,3 +323,53 @@ module: Examples/module.f $(OBJEXT) $(OBJSTAND)  $(OBJUSR) \
   	Examples/ffcard.inc
 	$(F_COMP) -o $@ $< $(OBJSTAND) $(OBJEXT) $(OBJUSR)  $(LIBS) -lstdc++ 
 
+#---- Wrapper/HepMC
+#----
+HEPMC_BASE=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/hepmc/2.06.07-cms4
+HEPMCLIB=-L$(HEPMC_BASE)/lib -lHepMCfio -lHepMC
+HEPMC_INCLUDE=-I$(HEPMC_BASE)/include
+
+BOOST_BASE=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/boost/1.51.0-cms2
+BOOSTLIB=-L$(BOOST_BASE)/lib -lboost_thread -lboost_signals -lboost_date_time
+BOOST_INCLUDE=-I$(BOOST_BASE)/include
+
+LIBDIR  = lib
+CFLAGS  = -g -O2 -ansi -pedantic -W -Wall -Wshadow -fPIC
+LDFLAGS = -g -O2 -ansi -pedantic -W -Wall -Wshadow -fPIC
+
+wrapper_f=HepMCWrapper/f77out.f HepMCWrapper/hwaend_dummy.f
+wrapper_f_obj=$(wrapper_f:HepMCWrapper/%.f=%.o)
+wrapper_f_obj_dest=$(wrapper_f_obj:%=$(OBJDIR)/%)
+
+$(wrapper_f_obj_dest): $(OBJDIR)/%.o: HepMCWrapper/%.f
+	$(F_COMP) -fPIC -c $< -o $@
+
+wrapper=HepMCWrapper/fostream.cc HepMCWrapper/Fpmc.cc
+wrapper_obj=$(wrapper:HepMCWrapper/%.cc=%.o)
+wrapper_obj_dest=$(wrapper_obj:%=$(OBJDIR)/%)
+
+$(wrapper_obj_dest): $(OBJDIR)/%.o: HepMCWrapper/%.cc
+	$(CC) $(CFLAGS) $(HEPMC_INCLUDE) $(LHAPDF_INCLUDE) -c $< -o $@
+
+$(LIBDIR)/FPMCHepMCWrapper.so:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
+	mkdir -p $(LIBDIR); \
+	$(CC) $(LDFLAGS) -shared $(wrapper_f_obj_dest) $(wrapper_obj_dest) $(HEPMCLIB) -o $@
+
+$(LIBDIR)/FPMCHepMCWrapper.a:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
+	mkdir -p $(LIBDIR); \
+	ar -r $@ $(wrapper_f_obj_dest) $(wrapper_obj_dest)
+
+$(OBJDIR)/fpmc-hepmc.o: HepMCWrapper/main.cc
+	$(CC) $(CFLAGS) $(BOOST_INCLUDE) $(HEPMC_INCLUDE) $(LHAPDF_INCLUDE) -c $< -o $@
+
+fpmc-hepmc: \
+$(OBJDIR)/herwig6500.o \
+$(OBJDIR)/fpmc.o \
+$(OBJDIR)/ffcard.o \
+$(OBJEXT) \
+$(wrapper_f_obj_dest) $(wrapper_obj_dest) \
+$(OBJDIR)/fpmc-hepmc.o
+	$(CC) $(LDFLAGS) $(OBJDIR)/herwig6500.o $(OBJDIR)/fpmc.o $(OBJDIR)/ffcard.o $(OBJEXT) \
+	$(wrapper_f_obj_dest) $(wrapper_obj_dest) $(OBJDIR)/fpmc-hepmc.o \
+	$(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA) $(HEPMCLIB) -o $@
+#----

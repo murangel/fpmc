@@ -49,9 +49,12 @@ C-----------------------------------------------------------------------
       COMMON /CC3/ UPART1
       COMMON /CC4/ UPART2
 
+      INTEGER UMODPDF1, UMODPDF2 
+      COMMON /CC5/ UMODPDF1, UMODPDF2
+
       character*32 UNTNAME, UCHIDePATH
       COMMON /CYFFLONG1/ UNTNAME, UCHIDePATH
 
-
-
+      character*32 ULHEFILE
+      COMMON /CYFFLONG2/ ULHEFILE
 

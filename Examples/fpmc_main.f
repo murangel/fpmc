@@ -266,6 +266,9 @@ c---Initialize event record fixing : this will replace the beam
 c   electrons by protons, radiated photons by pomerons/reggeons etc
       CALL HWFXER(.TRUE.,IPROC)
 
+c---Write LHE header
+      CALL LHEINI
+
 c---Loop over events
       DO 100 N=1,MAXEV
 c...Initialize event
@@ -294,9 +297,16 @@ c...Fix event record (i.e. restore correct intermediate states); print result
            PRINT*, 'AFTER EVENT RECORD FIXING:'
            CALL HWUEPR
          ENDIF
+
+c---Write LHE event
+         CALL LHEEVT
+
 c...User's event analysis
          IF(UOUTPUT.NE.0) CALL HWANAL
  100  CONTINUE
+
+c---Write LHE termination
+      CALL LHEEND
 
 c---Terminate elementary process
       CALL HWEFIN

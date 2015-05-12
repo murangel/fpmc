@@ -11,7 +11,10 @@ C     Analytic part of the integrand
       double precision skk1(2),skpk3(2),mskk3(2)
       double precision Deno,Denop,Numow1,Numopw1,Numow2,Numopw2
       double precision N1,w1,N2,w2,a,sa,NVertex
-      double precision CHIDedot,CHIDedotsum,phi,as,alphas,CHIDedothalf
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      double precision CHIDedot,CHIDedotsum,phi,as,alphas,CHIDedothalf
+      double precision CHIDedot,CHIDedotsum,phi,alphas,CHIDedothalf
+      double precision CHIDeHiggsas
       double precision pi,s,kmax,ncolor,nb,gq,Gf,mt,mp
       double precision mh
       double precision CHIDedgd2008,dgdforward,prefac
@@ -64,7 +67,9 @@ C     Sum of vectors in phi and dphi
 
 C  --------------------------   Higgs vertex  ----------------------------------   C
 C    JR: as(mh**2) is always fixed to 0.1 as a prescription
-      w1=sqrt(sqrt(2.)*Gf)*as(mh**2)*mh**2/3./pi
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      w1=sqrt(sqrt(2.)*Gf)*as(mh**2)*mh**2/3./pi
+      w1=sqrt(sqrt(2.)*Gf)*CHIDeHiggsas(mh**2)*mh**2/3./pi
       w2=w1
       a=mh**2/mt**2
       N1=6.*(1.+(1.-4./a)*(atan(sqrt(a/(4.-a))))**2)/a
@@ -166,10 +171,13 @@ C     DLA Sudakov form factor
 C     Naive Sudakov Factor      
       elseif(sudaf.EQ.3)then
 
-       Sphi=Dexp(-3./pi/2.*as(mh**2/x)*
+C   Rename as(q) -> CHIDeHiggsas(q)
+C       Sphi=Dexp(-3./pi/2.*as(mh**2/x)*
+C       Sphib=Dexp(-3./pi/2.*as(mh**2/x)*
+       Sphi=Dexp(-3./pi/2.*CHIDeHiggsas(mh**2/x)*
      & ((log(CHIDedot(skk3,skk3)/mh**2/xp)
      &*log(CHIDedot(skk1,skk1)/mh**2/xp))))
-       Sphib=Dexp(-3./pi/2.*as(mh**2/x)*
+       Sphib=Dexp(-3./pi/2.*CHIDeHiggsas(mh**2/x)*
      & ((log(CHIDedot(skpk3,skpk3)/mh**2/xp)
      &*log(CHIDedot(skpk1,skpk1)/mh**2/xp))))
 
@@ -331,10 +339,15 @@ C      -> choose a Q²
 C      -> compute the corresponding lambda(nf)
 C      -> compute as
 C   ----------------------------------------------------------------------------   C
-      function as(q) 
+C
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      function as(q) 
+      function CHIDeHiggsas(q) 
        implicit none 
-       integer i,nf 
-      double precision as
+      integer i,nf 
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      double precision as
+      double precision CHIDeHiggsas
       double precision m(2:6)
       double precision smu,smc,sms,smb,smt 
       double precision lambda(2:6),la
@@ -380,9 +393,13 @@ C     Constituent quarks masses and l(5) en GeV from particle data group
       continue
 
       la=lambda(nf)
-      as=12.*pi/(33.-2.*nf)/log(q/la**2)
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      as=12.*pi/(33.-2.*nf)/log(q/la**2)
+      CHIDeHiggsas=12.*pi/(33.-2.*nf)/log(q/la**2)
 
-      if(as.LT.0.or.as.GT.0.7d0)as=0.7d0
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      if(as.LT.0.or.as.GT.0.7d0)as=0.7d0
+      if(CHIDeHiggsas.LT.0.or.CHIDeHiggsas.GT.0.7d0)CHIDeHiggsas=0.7d0
       
 666   end    
 
@@ -519,7 +536,9 @@ C   --------------------------------------------------------------------------- 
       real*8 Dsuda,mu2,mmu2,l2
       real*8 arg,Iarg
       real*8 ERROR,dcadredo,prec
-      double precision as,s2
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      double precision as,s2
+      double precision CHIDeHiggsas,s2
      
       external dcadredo
       external Iarg
@@ -538,7 +557,9 @@ C   --------------------------------------------------------------------------- 
        if(evolv.EQ.1)then 
         Dsuda=Dexp(-arg)
        elseif(evolv.EQ.2)then
-        Dsuda=Dexp(-as(mu2)*arg)
+C   Rename as(q) -> CHIDeHiggsas(q)
+C        Dsuda=Dexp(-as(mu2)*arg)
+        Dsuda=Dexp(-CHIDeHiggsas(mu2)*arg)
        endif
       endif 
 
@@ -553,7 +574,9 @@ C   Integrand for dcadredo.f
       real*8 pi,s,kmax,ncolor,gq,nb,Gf,mt,mp
       real*8 d,Iarg,Ia,Ib,Ilog,Iconst
       double precision qt,mmu2,s2,nnu2
-      real*8 as
+C   Rename as(q) -> CHIDeHiggsas(q)
+C      real*8 as
+      real*8 CHIDeHiggsas
 
       common/const/pi,s,kmax,ncolor,gq,nb,Gf,mt,mp
       common/flavor/nf
@@ -583,7 +606,9 @@ C   Sudakov prescription: 1=Durham, 2=DLA
       endif
 
       if(evolv.EQ.1)then 
-       Ib=as(qt)/2./pi/qt
+C   Rename as(q) -> CHIDeHiggsas(q)
+C       Ib=as(qt)/2./pi/qt
+       Ib=CHIDeHiggsas(qt)/2./pi/qt
       elseif(evolv.EQ.2)then
        Ib=1./2./pi/qt
       endif
