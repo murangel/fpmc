@@ -353,7 +353,7 @@ $(wrapper_obj_dest): $(OBJDIR)/%.o: HepMCWrapper/%.cc
 
 $(LIBDIR)/FPMCHepMCWrapper.so:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
 	mkdir -p $(LIBDIR); \
-	$(CC) $(LDFLAGS) -shared $(wrapper_f_obj_dest) $(wrapper_obj_dest) $(HEPMCLIB) -o $@
+	$(CC) $(LDFLAGS) -shared $(wrapper_f_obj_dest) $(wrapper_obj_dest) $(HEPMCLIB) $(BOOSTLIB) -o $@
 
 $(LIBDIR)/FPMCHepMCWrapper.a:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
 	mkdir -p $(LIBDIR); \
@@ -371,5 +371,5 @@ $(wrapper_f_obj_dest) $(wrapper_obj_dest) \
 $(OBJDIR)/fpmc-hepmc.o
 	$(CC) $(LDFLAGS) $(OBJDIR)/herwig6500.o $(OBJDIR)/fpmc.o $(OBJDIR)/ffcard.o $(OBJEXT) \
 	$(wrapper_f_obj_dest) $(wrapper_obj_dest) $(OBJDIR)/fpmc-hepmc.o \
-	$(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA) $(HEPMCLIB) -o $@
+	$(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA) $(HEPMCLIB) $(BOOSTLIB) -o $@
 #----

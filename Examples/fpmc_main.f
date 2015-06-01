@@ -66,6 +66,12 @@ c---Random number genrator initializaiton
 C ... increase inefficiency tolerance
       EFFMIN = 1d-6
 
+C---Initialize LHAPDF
+      AUTPDF(1) = "HWLHAPDF"
+      MODPDF(1) = UMODPDF1
+      AUTPDF(2) = "HWLHAPDF"
+      MODPDF(2) = UMODPDF2
+
 c---User's default kinematic parameters
 c... beam momentum transfer range ( Q2 = |t| )
       RMASS(201) = UHMASS
@@ -211,6 +217,7 @@ c---Set the number of nucleons - for QED photon flux
       write(*,*) '-------------'
       write(*,*) 'OUTPUT   = ',UOUTPUT
       write(*,*) 'NTNAME   = ',UNTNAME
+      write(*,*) 'LHE FILE   = ',ULHEFILE
       write(*,*) 'MAXEV    = ',MAXEV
       write(*,*) 'TYPEPR   = ',TYPEPR
       write(*,*) 'TYPEINT  = ',TYPINT
@@ -242,6 +249,10 @@ c---Set the number of nucleons - for QED photon flux
       write(*,*) 'DLAMBDA = ', LAMBDA
       write(*,*) 'ANOMCUTOFF= ', ANOMCUTOFF
       write(*,*) 'AAEXOTIC = ', AAEXOTIC
+      write(*,*) 'AUTPDF(1) = ', AUTPDF(1)
+      write(*,*) 'MODPDF(1) = ', MODPDF(1)
+      write(*,*) 'AUTPDF(2) = ', AUTPDF(2)
+      write(*,*) 'MODPDF(2) = ', MODPDF(2)
       write(*,*)
 
 c---Initialize model/pdf dependant parameters

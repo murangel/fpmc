@@ -66,7 +66,7 @@ C---Initialize LHAPDF
       AUTPDF(1) = "HWLHAPDF"
       MODPDF(1) = UMODPDF1
       AUTPDF(2) = "HWLHAPDF"
-      MODPDF(3) = UMODPDF2
+      MODPDF(2) = UMODPDF2
 
 c---User's default kinematic parameters
 c... beam momentum transfer range ( Q2 = |t| )
