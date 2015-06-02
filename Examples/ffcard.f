@@ -152,7 +152,7 @@ c---FFC default initialiszation
         call FFKEY('MODPDF1', UMODPDF1, 1, 'integer')
         call FFKEY('MODPDF2', UMODPDF2, 1, 'integer')
         ULHEFILE = ''
-        call FFKEY('LHEFILE',ULHEFILE,32,'mixed')
+        call FFKEY('LHEFILE',ULHEFILE,64,'mixed')
 
         call FFGO
        

@@ -55,6 +55,6 @@ C-----------------------------------------------------------------------
       character*32 UNTNAME, UCHIDePATH
       COMMON /CYFFLONG1/ UNTNAME, UCHIDePATH
 
-      character*32 ULHEFILE
+      character*64 ULHEFILE
       COMMON /CYFFLONG2/ ULHEFILE
 
