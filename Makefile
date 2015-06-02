@@ -332,9 +332,7 @@ HEPMCLIB      = -L$(HEPMC_BASE)/lib -lHepMCfio -lHepMC -Wl,-rpath -Wl,$(HEPMC_BA
 HEPMC_INCLUDE = -I$(HEPMC_BASE)/include
 
 #BOOST_BASE=/cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/boost/1.51.0-cms2
-BOOST_BASE    = /cvmfs/cms.cern.ch/slc6_amd64_gcc462/external/boost/1.50.0-cms4
-#BOOST_BASE    = /afs/cern.ch/sw/lcg/external/Boost/1.50.0_python2.6/x86_64-slc6-gcc46-opt
-BOOSTLIB      = -L$(BOOST_BASE)/lib -lboost_signals -Wl,-rpath -Wl,$(BOOST_BASE)/lib
+BOOST_BASE    = /afs/cern.ch/sw/lcg/external/Boost/1.50.0_python2.6/x86_64-slc6-gcc46-opt
 BOOST_INCLUDE = -I$(BOOST_BASE)/include
 
 LIBDIR  = lib
@@ -357,7 +355,7 @@ $(wrapper_obj_dest): $(OBJDIR)/%.o: HepMCWrapper/%.cc
 
 $(LIBDIR)/FPMCHepMCWrapper.so:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
 	mkdir -p $(LIBDIR); \
-	$(CC) $(LDFLAGS) -shared $(wrapper_f_obj_dest) $(wrapper_obj_dest) $(HEPMCLIB) $(BOOSTLIB) -o $@
+	$(CC) $(LDFLAGS) -shared $(wrapper_f_obj_dest) $(wrapper_obj_dest) $(HEPMCLIB) -o $@
 
 $(LIBDIR)/FPMCHepMCWrapper.a:$(wrapper_f_obj_dest) $(wrapper_obj_dest)
 	mkdir -p $(LIBDIR); \
@@ -375,5 +373,5 @@ $(wrapper_f_obj_dest) $(wrapper_obj_dest) \
 $(OBJDIR)/fpmc-hepmc.o
 	$(CC) $(LDFLAGS) $(OBJDIR)/herwig6500.o $(OBJDIR)/fpmc.o $(OBJDIR)/ffcard.o $(OBJEXT) \
 	$(wrapper_f_obj_dest) $(wrapper_obj_dest) $(OBJDIR)/fpmc-hepmc.o \
-	$(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA) $(HEPMCLIB) $(BOOSTLIB) -o $@
+	$(CERNLIB) $(LHAPDFLIB) $(GSLLIB) $(LIB_OMEGA) $(HEPMCLIB) -o $@
 #----
