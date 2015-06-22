@@ -21,10 +21,10 @@ C-----------------------------------------------------------------------
 c O.K. INEG counts number of cycles. Kills event if > 50       
       INTEGER INEG
 
-      AUTPDF(2) = "HWLHAPDF"
-      MODPDF(2) = 10800
-      AUTPDF(1) = "HWLHAPDF"
-      MODPDF(1) = 10800
+C      AUTPDF(2) = "HWLHAPDF"
+C      MODPDF(2) = 10800
+C      AUTPDF(1) = "HWLHAPDF"
+C      MODPDF(1) = 10800
 
       IF (IERROR.NE.0) RETURN
       DO 100 IHEP=1,NMXHEP

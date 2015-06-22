@@ -1,8 +1,9 @@
 NTNAME      'out.hbook'
+LHEFILE     'FPMC_KMR_Dijets_13TeV_PTMIN_20.lhe'
 MAXEV       1000
 TYPEPR      'EXC'
 TYPINT      'QCD'
-ECMS        14000.
+ECMS        13000.
 IPROC       16013
 NFLUX       16
 YJMAX       2.5
