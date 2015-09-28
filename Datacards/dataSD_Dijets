@@ -1,3 +1,4 @@
+OUTPUT      0
 NTNAME      'tmpntuple.ntp'
 LHEFILE     'FPMC_SDDijets_13TeV_PTMIN_20.lhe'
 MAXEV       1000
