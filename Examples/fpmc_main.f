@@ -215,9 +215,10 @@ c---Set the number of nucleons - for QED photon flux
       write(*,*) ''
       write(*,*) 'USER SETTINGS'
       write(*,*) '-------------'
-      write(*,*) 'OUTPUT   = ',UOUTPUT
-      write(*,*) 'NTNAME   = ',UNTNAME
-      write(*,*) 'LHE FILE   = ',ULHEFILE
+      write(*,*) 'OUTPUT      = ',UOUTPUT
+      write(*,*) 'OUTPUTLHE   = ',UOUTPUTLHE
+      write(*,*) 'NTNAME      = ',UNTNAME
+      write(*,*) 'LHE FILE    = ',ULHEFILE
       write(*,*) 'MAXEV    = ',MAXEV
       write(*,*) 'TYPEPR   = ',TYPEPR
       write(*,*) 'TYPEINT  = ',TYPINT
@@ -278,7 +279,7 @@ c   electrons by protons, radiated photons by pomerons/reggeons etc
       CALL HWFXER(.TRUE.,IPROC)
 
 c---Write LHE header
-      CALL LHEINI
+      IF(UOUTPUTLHE.NE.0) CALL LHEINI
 
 c---Loop over events
       DO 100 N=1,MAXEV
@@ -310,14 +311,14 @@ c...Fix event record (i.e. restore correct intermediate states); print result
          ENDIF
 
 c---Write LHE event
-         CALL LHEEVT
+         IF(UOUTPUTLHE.NE.0) CALL LHEEVT
 
 c...User's event analysis
          IF(UOUTPUT.NE.0) CALL HWANAL
  100  CONTINUE
 
 c---Write LHE termination
-      CALL LHEEND
+      IF(UOUTPUTLHE.NE.0) CALL LHEEND
 
 c---Terminate elementary process
       CALL HWEFIN

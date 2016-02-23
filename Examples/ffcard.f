@@ -18,6 +18,7 @@ C-----------------------------------------------------------------------
 
 c---FFC default initialiszation
       UOUTPUT    =    1
+      UOUTPUTLHE =    0
       UNTNAME    =    'tmpntuple.ntp'
       UMAXEV     =    1000
       UTYPEPR    =    'EXC'
@@ -88,6 +89,7 @@ c---FFC default initialiszation
         !---JC read config file
         CALL FFSET('SIZE', 32)
         call FFKEY('OUTPUT',UOUTPUT,1,'integer')
+        call FFKEY('OUTPUTLHE',UOUTPUTLHE,1,'integer')
         call FFKEY('MAXEV',UMAXEV,1,'integer')
         call FFKEY('TYPEPR',UTYPEPR,3,'mixed')
         call FFKEY('TYPINT',UTYPINT,3,'mixed')
