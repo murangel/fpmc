@@ -6,8 +6,8 @@
 *   Input:   ZT = x_{i/IP}
 *            Q2T = photon virtuality
 *       --- current  hep-ex/0606004
-*           IFIT = 100 fit B
-*           IFIT = 101 fit A
+*           IFIT = 100 fit A
+*           IFIT = 101 fit B
 
 *       --- old (hep-ph/0609291) ---      
 *           IFIT = 10, new H1 QCD fit 
@@ -69,10 +69,10 @@ c This is necessary since the tables do not have the same sizes...
                            indice = 2
         ELSEIF(IFIT.EQ.100) THEN 
                            indice = 3
-                           IFIT = 2 ! fit b
+                           IFIT = 1 ! fit a
         ELSEIF(IFIT.EQ.101) THEN 
                            indice = 4
-                           IFIT =1 ! fit a
+                           IFIT = 2 ! fit b
         ELSE 
            print *, 'Obsolete choice of IFIT=', IFIT, '. See h1qcd.f'
            STOP
