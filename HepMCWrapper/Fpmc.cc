@@ -19,8 +19,6 @@
 #include <HepMC/HerwigWrapper.h>
 #include <HepMC/HEPEVT_Wrapper.h>
 #include <HepMC/IO_HERWIG.h>
-//#include "HepPID/ParticleIDTranslations.hh"
-//#include "CLHEP/Vector/LorentzVector.h"
 
 #include "herwig.h"
 #include "fpmc.h"
@@ -54,7 +52,8 @@ void Fpmc::begin() {
   // Write datacard  
   int iunit = 5;	
   fostream config(iunit,"datacard.txt");	
-  /*
+  /* ===============================    
+  Example:    
   config << "TYPEPR      'INC'";
   config << "TYPINT      'QED'";
   config << "IPROC       16010";
@@ -65,12 +64,14 @@ void Fpmc::begin() {
   config << "YJMIN      -6.";
   config << "PTMIN       10.";
   config << "IFIT        10";
-  config << "ISOFTM      1";*/
+  config << "ISOFTM      1";
+  =============================== */
 
   std::vector<std::string> invalidParams;
 
   // Loop over all parameters and stop in case of error
   for( vector<string>::const_iterator itPar = params_.begin(); itPar != params_.end(); ++itPar ) {
+     // Check for invalid parameters
      for(std::vector<std::string>::const_iterator itInvPar = invalidParams.begin(); itInvPar != invalidParams.end(); ++itInvPar){
         if( 0 == itPar->compare(0,itInvPar->size(),*itInvPar) ){
            stringstream oss;
@@ -79,16 +80,19 @@ void Fpmc::begin() {
            throw runtime_error( oss.str() );
         }
      }
+     // Pass string to datacard
      config << itPar->c_str();
   }
 
-  //FIXME  	
-  //cout << " seed= " << seed_ << endl;
-  //fRandomEngine = new CLHEP::HepJamesRandom(seed_);
-  //fRandomGenerator = new CLHEP::RandFlat(fRandomEngine);
+  // Use random seeds from datacard
+  /* ===============================    
+  Using CLHEP engines: 
+  fRandomEngine = new CLHEP::HepJamesRandom(seed_);
+  fRandomGenerator = new CLHEP::RandFlat(fRandomEngine);
  
-  //long seed0 = fRandomGenerator->fireInt(1L,179L);
-  //long seed1 = fRandomGenerator->fireInt(1L,179L);
+  long seed0 = fRandomGenerator->fireInt(1L,179L);
+  long seed1 = fRandomGenerator->fireInt(1L,179L);
+  =============================== */  
 
   config.rewind();
 
@@ -149,7 +153,6 @@ void Fpmc::begin() {
   //
   hwigin();
 
-  //FIXME
   // Read random seeds from datacard  
   //NRN(1) = UNRN1 ! set again later in the code
   //NRN(2) = UNRN2 ! set again later in the code
